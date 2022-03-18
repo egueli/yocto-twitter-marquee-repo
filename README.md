@@ -4,7 +4,9 @@ Showing personal Twitter timeline to an old [Sigma ASC 333](https://revspace.nl/
 
 This repository only contains the metadata needed to download the custom Yocto Linux sources. Do not clone this repository; instead, use it as the base URL for a [repo](https://gerrit.googlesource.com/git-repo/+/refs/heads/master/README.md) workspace:
 
-    repo init -u https://github.com/TechNexion/yocto-twitter-marquee-repo.git
+    mkdir yocto-twitter-marquee
+    cd yocto-twitter-marquee
+    repo init -u https://github.com/egueli/yocto-twitter-marquee-repo.git
     repo sync -j8
     
-For more details, read the README at [TechNexion BSP](https://github.com/TechNexion/tn-imx-yocto-manifest/tree/hardknott_5.10.y-stable) repository.
+For more information & options, read the README at [TechNexion BSP](https://github.com/TechNexion/tn-imx-yocto-manifest/tree/hardknott_5.10.y-stable) repository.
