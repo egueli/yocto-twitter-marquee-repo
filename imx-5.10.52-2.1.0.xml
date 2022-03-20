@@ -30,7 +30,7 @@
   <project name="meta-imx" path="sources/meta-imx" remote="CAF" revision="refs/tags/rel_imx_5.10.52_2.1.0" upstream="hardknott-5.10.52-2.1.0"/>
 
   <project name="meta-nxp-desktop" path="sources/meta-nxp-desktop" remote="tn-customization" revision="tn-imx-5.10.52-hardknott"/>
-  <project name="meta-tn-imx-bsp" path="sources/meta-tn-imx-bsp" remote="tn-bsp" revision="archive/hardknott_5.10.52-2.1.0-next">
+  <project name="meta-tn-imx-bsp" path="sources/meta-tn-imx-bsp" remote="tn-bsp" revision="83d2387b5637c5e0956210f669857445d2ca14d6">
     <linkfile src="tools/tn-setup-release.sh" dest="tn-setup-release.sh"/>
     <linkfile src="README" dest="README-TechNexion-BSP"/>
   </project>
