@@ -1,4 +1,7 @@
-# https://embeddeduse.com/2019/02/11/using-docker-containers-for-yocto-builds/
+# Inspired by https://embeddeduse.com/2019/02/11/using-docker-containers-for-yocto-builds/
+#
+# The image built with this Dockerfile assumes a volume binding to /home/led-marquee/yocto/output, e.g.
+# docker run -it -v /some/host/dir:/home/led-marquee/yocto/output yocto-twitter-marquee:latest 
 
 FROM ubuntu:20.04
 
@@ -18,6 +21,10 @@ RUN locale-gen en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 \
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
+# Copy the scripts that will be used later
+RUN mkdir -p /scripts
+ADD setup.sh /scripts
+
 # Set up internal Docker user (default is root, we don´t wanna use root)
 ENV USER_NAME led-marquee
 
@@ -36,23 +43,13 @@ RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > $USER
 RUN chmod a+x $USER_HOME/bin/repo
 
 # Set up the base directory where everything will be downloaded and built
-
 ENV YOCTO_ROOT_DIR $USER_HOME/yocto
 RUN mkdir -p $YOCTO_ROOT_DIR
 WORKDIR $YOCTO_ROOT_DIR
 
 # We need this to download with Repo
-ARG git_name="Yocto Git Client"
-ARG git_email="dummy@email.com"
+RUN git config --global user.name "Yocto Git Client"
+RUN git config --global user.email "dummy@email.com"
+RUN git config --global color.ui true
 
-# Download from all the repos
-RUN repo init -u https://github.com/egueli/yocto-twitter-marquee-repo.git
-RUN repo sync -j8
-
-# Set up the build environment (when the image is run)
-ENV WIFI_FIRMWARE=y
-ENV WIFI_MODULE=qca
-ENV DISTRO=fsl-imx-wayland
-ENV MACHINE=pico-imx7
-ENV BASEBOARD=pi
-CMD source ./tn-setup-release.sh -b build-wayland-pico-imx7 && /bin/bash
+CMD /scripts/setup.sh && /bin/bash

@@ -13,7 +13,15 @@ This repository contains:
 
 ## Running the container
 
-    docker run -it yocto-twitter-marquee:latest
+First, create the build directory on the host:
+
+    mkdir /some/host/dir
+
+Then, run the image using that directory as a volume:
+
+    docker run -it \
+    -v /some/host/dir:/home/led-marquee/yocto/output \
+    yocto-twitter-marquee:latest
 
 The first time it will ask to accept the Freescale EULA. Then you'll be dropped to a Bash shell with the Yocto build already configured. From there you can e.g.:
 
