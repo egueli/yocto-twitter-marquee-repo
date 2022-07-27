@@ -23,9 +23,14 @@ Then, run the image using that directory as a volume:
     -v /some/host/dir:/home/led-marquee/yocto/output \
     yocto-twitter-marquee:latest
 
-The first time it will ask to accept the Freescale EULA. Then you'll be dropped to a Bash shell with the Yocto build already configured. From there you can e.g.:
+The first time it will ask to accept the Freescale EULA. Then you'll be dropped to a Bash shell with the Yocto build already configured. From there you can:
+
+    source setup-environment build-wayland-pico-imx7
+
+to set up the environment for building, and
 
     time bitbake imx-image-full
 
+to make an image.
     
 For more details, read the README at [TechNexion BSP](https://github.com/TechNexion/tn-imx-yocto-manifest/tree/hardknott_5.10.y-stable) repository.
