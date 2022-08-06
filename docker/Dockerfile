@@ -15,7 +15,10 @@ chrpath socat cpio python python3 python3-pip python3-pexpect python3-git python
 bc bison xz-utils debianutils iputils-ping libsdl1.2-dev xterm language-pack-en coreutils texi2html file docbook-utils \
 python-pysqlite2 help2man desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial autoconf automake groff curl \
 lzop asciidoc u-boot-tools libreoffice-writer sshpass ssh-askpass zip xz-utils kpartx vim screen libssl-dev flex \
-libncurses-dev libssl-dev openjdk-8-jdk
+libncurses-dev libssl-dev
+
+# Install packages needed for Ecli[pse development
+RUN apt-get update && apt-get -y install libswt-gtk-4-java libswt-gtk-4-jni
 
 # Use bash instead of default dash
 RUN rm /bin/sh && ln -s bash /bin/sh
@@ -61,8 +64,9 @@ RUN git config --global color.ui true
 # Download all the sources
 RUN /scripts/get_sources.sh
 
-# # Configure Eclipse
-# RUN curl https://ftp.halifax.rwth-aachen.de/eclipse/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz | tar zxv
+# Install Eclipse
+# TODO figure out why this doesn't actually create an eclipse directory anywhere
+#RUN curl https://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/2022-06/R/eclipse-cpp-2022-06-R-linux-gtk-x86_64.tar.gz | tar zxv -C $YOCTO_ROOT_DIR
 
 # Set the environment variables required to launch bitbake & co.
 RUN cat /scripts/env.sh >> $USER_HOME/.bashrc
