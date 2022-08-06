@@ -10,7 +10,12 @@ ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install all the packages needed to build Yocto.
-RUN apt-get update && apt-get -y install gawk wget git git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat cpio python python3 python3-pip python3-pexpect python3-git python3-jinja2 libegl1-mesa pylint3 rsync bc bison xz-utils debianutils iputils-ping libsdl1.2-dev xterm language-pack-en coreutils texi2html file docbook-utils python-pysqlite2 help2man desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial autoconf automake groff curl lzop asciidoc u-boot-tools libreoffice-writer sshpass ssh-askpass zip xz-utils kpartx vim screen libssl-dev flex libncurses-dev libssl-dev
+RUN apt-get update && apt-get -y install gawk wget git git-core diffstat unzip texinfo gcc-multilib build-essential \
+chrpath socat cpio python python3 python3-pip python3-pexpect python3-git python3-jinja2 libegl1-mesa pylint3 rsync \
+bc bison xz-utils debianutils iputils-ping libsdl1.2-dev xterm language-pack-en coreutils texi2html file docbook-utils \
+python-pysqlite2 help2man desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial autoconf automake groff curl \
+lzop asciidoc u-boot-tools libreoffice-writer sshpass ssh-askpass zip xz-utils kpartx vim screen libssl-dev flex \
+libncurses-dev libssl-dev
 
 # Use bash instead of default dash
 RUN rm /bin/sh && ln -s bash /bin/sh
