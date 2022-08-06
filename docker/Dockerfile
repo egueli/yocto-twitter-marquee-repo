@@ -9,13 +9,13 @@ FROM ubuntu:20.04
 ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Install all the packages needed to build Yocto.
+# Install all the packages needed to build Yocto and develop on the kernel.
 RUN apt-get update && apt-get -y install gawk wget git git-core diffstat unzip texinfo gcc-multilib build-essential \
 chrpath socat cpio python python3 python3-pip python3-pexpect python3-git python3-jinja2 libegl1-mesa pylint3 rsync \
 bc bison xz-utils debianutils iputils-ping libsdl1.2-dev xterm language-pack-en coreutils texi2html file docbook-utils \
 python-pysqlite2 help2man desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial autoconf automake groff curl \
 lzop asciidoc u-boot-tools libreoffice-writer sshpass ssh-askpass zip xz-utils kpartx vim screen libssl-dev flex \
-libncurses-dev libssl-dev
+libncurses-dev libssl-dev openjdk-8-jdk
 
 # Use bash instead of default dash
 RUN rm /bin/sh && ln -s bash /bin/sh
@@ -28,7 +28,8 @@ ENV LC_ALL en_US.UTF-8
 
 # Copy the scripts that will be used later
 RUN mkdir -p /scripts
-ADD setup.sh /scripts
+ADD get_sources.sh /scripts
+ADD env.sh /scripts
 
 # Set up internal Docker user (default is root, we don´t wanna use root)
 ENV USER_NAME led-marquee
@@ -57,4 +58,14 @@ RUN git config --global user.name "Yocto Git Client"
 RUN git config --global user.email "dummy@email.com"
 RUN git config --global color.ui true
 
-CMD /scripts/setup.sh && /bin/bash
+# Download all the sources
+RUN /scripts/get_sources.sh
+
+# # Configure Eclipse
+# RUN curl https://ftp.halifax.rwth-aachen.de/eclipse/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz | tar zxv
+
+# Set the environment variables required to launch bitbake & co.
+RUN cat /scripts/env.sh >> $USER_HOME/.bashrc
+
+# Starting the Docker container will make you ready to develop the Twitter LED Marquee. Enjoy!
+CMD /bin/bash
